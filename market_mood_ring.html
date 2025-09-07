@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Market Mood Ring</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: white;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .mood-shape {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            transition: background 1s ease;
+            border: 2px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .sentiment-info {
+            text-align: center;
+            color: #333;
+        }
+        
+        .current-mood {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .mood-stats {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .update-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .update-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Financial Market Mood Ring</h1>
+    
+    <div class="mood-shape" id="moodShape">
+        MIXED
+    </div>
+    
+    <div class="sentiment-info">
+        <div class="current-mood" id="currentMood">Market Mood: MIXED</div>
+        <div class="mood-stats" id="moodStats">
+            🐂 Bullish: 0% | 🐻 Bearish: 10% | 😐 Neutral: 90%
+        </div>
+    </div>
+    
+    <button class="update-btn" onclick="updateMood()">Update Market Mood</button>
+    
+    <script>
+        let currentSentiment = {
+            bullish: 0,
+            bearish: 10,
+            neutral: 90,
+            overall: 'MIXED'
+        };
+        
+        function updateMoodColors() {
+            const { bullish, bearish, neutral } = currentSentiment;
+            const moodShape = document.getElementById('moodShape');
+            
+            if (bearish > 50) {
+                // Bearish - Red
+                moodShape.style.background = '#e74c3c';
+                moodShape.textContent = 'BEARISH';
+            } else if (bullish > 50) {
+                // Bullish - Green
+                moodShape.style.background = '#2ecc71';
+                moodShape.textContent = 'BULLISH';
+            } else if (neutral > 70) {
+                // Very Neutral - Gray
+                moodShape.style.background = '#95a5a6';
+                moodShape.textContent = 'NEUTRAL';
+            } else {
+                // Mixed - Orange
+                moodShape.style.background = '#f39c12';
+                moodShape.textContent = 'MIXED';
+            }
+            
+            // Update text display
+            document.getElementById('currentMood').textContent = `Market Mood: ${currentSentiment.overall}`;
+            document.getElementById('moodStats').textContent = 
+                `🐂 Bullish: ${bullish}% | 🐻 Bearish: ${bearish}% | 😐 Neutral: ${neutral}%`;
+        }
+        
+        function updateMood() {
+            // Demo different moods
+            const moods = [
+                { bullish: 70, bearish: 20, neutral: 10, overall: 'BULLISH' },
+                { bullish: 15, bearish: 75, neutral: 10, overall: 'BEARISH' },
+                { bullish: 30, bearish: 30, neutral: 40, overall: 'MIXED' },
+                { bullish: 5, bearish: 10, neutral: 85, overall: 'NEUTRAL' }
+            ];
+            
+            currentSentiment = moods[Math.floor(Math.random() * moods.length)];
+            updateMoodColors();
+        }
+        
+        // Initialize
+        updateMoodColors();
+    </script>
+</body>
+</html>
