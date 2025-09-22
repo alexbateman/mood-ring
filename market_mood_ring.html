@@ -344,52 +344,72 @@
     </div>
     
     <script>
-        var currentSentiment = 'neutral';
-        
-        var colorSchemes = {
-            bullish: 'radial-gradient(circle, #C3E494, #92C34E, #3B5911)',
-            bearish: 'radial-gradient(circle, #F75C4A, #C34014, #9D1412)',
-            neutral: 'radial-gradient(circle, #763CC7, #5B1EAF, #260E47)'
-        };
-        
-        var sentiments = {
-            bullish: { word: 'Bullish' },
-            bearish: { word: 'Bearish' },
-            neutral: { word: 'Neutral' }
-        };
-        
-        function setSentiment(sentiment) {
-            currentSentiment = sentiment;
-            var blob = document.getElementById('blob');
-            var sentimentWord = document.getElementById('sentimentWord');
-            
-            blob.style.background = colorSchemes[sentiment];
-            sentimentWord.textContent = sentiments[sentiment].word;
-        }
-        
-        function openModal() {
-            document.getElementById('modal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeModal(event) {
-            if (!event || event.target === document.getElementById('modal')) {
-                document.getElementById('modal').style.display = 'none';
-                document.body.style.overflow = 'auto';
+console.log("Script starting...");
+
+var currentSentiment = 'neutral';
+
+// Test if we can run basic JavaScript
+console.log("Basic JavaScript working");
+
+var colorSchemes = {
+    bullish: 'radial-gradient(circle, #C3E494, #92C34E, #3B5911)',
+    bearish: 'radial-gradient(circle, #F75C4A, #C34014, #9D1412)',
+    neutral: 'radial-gradient(circle, #763CC7, #5B1EAF, #260E47)'
+};
+
+var sentiments = {
+    bullish: { word: 'Bullish' },
+    bearish: { word: 'Bearish' },
+    neutral: { word: 'Neutral' }
+};
+
+function setSentiment(sentiment) {
+    console.log("Setting sentiment to:", sentiment);
+    currentSentiment = sentiment;
+    var blob = document.getElementById('blob');
+    var sentimentWord = document.getElementById('sentimentWord');
+    
+    blob.style.background = colorSchemes[sentiment];
+    sentimentWord.textContent = sentiments[sentiment].word;
+}
+
+function loadSentimentData() {
+    console.log("Attempting to load sentiment data...");
+    fetch('sentiment_data.json')
+        .then(response => {
+            console.log("Fetch response:", response);
+            if (!response.ok) {
+                throw new Error('Could not load sentiment data: ' + response.status);
             }
-        }
-        
-        function simulateLiveUpdate() {
-            var sentimentTypes = ['bullish', 'bearish', 'neutral'];
-            var randomSentiment = sentimentTypes[Math.floor(Math.random() * sentimentTypes.length)];
-            setSentiment(randomSentiment);
-        }
-        
-        setInterval(simulateLiveUpdate, 10000);
-        
-        document.addEventListener('DOMContentLoaded', function() {
+            return response.json();
+        })
+        .then(data => {
+            console.log('SUCCESS! Loaded sentiment data:', data);
+            setSentiment(data.sentiment);
+        })
+        .catch(error => {
+            console.log('ERROR loading sentiment data:', error);
+            console.log('Falling back to demo mode');
             setSentiment('neutral');
         });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Page loaded, starting mood ring...");
+    loadSentimentData();
+});
+</script>
+    <script>
+        function openModal() {
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal(event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            document.getElementById('modal').style.display = 'none';
+        }
     </script>
 </body>
 </html>

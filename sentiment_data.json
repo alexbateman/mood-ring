@@ -1,0 +1,79 @@
+{
+  "sentiment": "bullish",
+  "bullish_percent": 9.7,
+  "bearish_percent": 4.0,
+  "neutral_percent": 86.3,
+  "last_updated": "2025-09-21T22:00:30.907876",
+  "total_posts": 29,
+  "source_breakdown": {
+    "r/stocks": {
+      "bullish": 1,
+      "bearish": 0,
+      "neutral": 9,
+      "total_posts": 10,
+      "weight": 1.0,
+      "type": "reddit"
+    },
+    "r/investing": {
+      "bullish": 0,
+      "bearish": 1,
+      "neutral": 7,
+      "total_posts": 8,
+      "weight": 1.2,
+      "type": "reddit"
+    },
+    "r/options": {
+      "bullish": 1,
+      "bearish": 0,
+      "neutral": 5,
+      "total_posts": 6,
+      "weight": 0.8,
+      "type": "reddit"
+    },
+    "r/ValueInvesting": {
+      "bullish": 1,
+      "bearish": 0,
+      "neutral": 4,
+      "total_posts": 5,
+      "weight": 1.1,
+      "type": "reddit"
+    },
+    "Reuters Business": {
+      "bullish": 0,
+      "bearish": 0,
+      "neutral": 0,
+      "total_posts": 0,
+      "weight": 1.3,
+      "type": "news"
+    },
+    "MarketWatch": {
+      "bullish": 0,
+      "bearish": 0,
+      "neutral": 0,
+      "total_posts": 0,
+      "weight": 1.1,
+      "type": "news"
+    },
+    "Yahoo Finance": {
+      "bullish": 0,
+      "bearish": 0,
+      "neutral": 0,
+      "total_posts": 0,
+      "weight": 1.0,
+      "type": "news"
+    }
+  },
+  "data_sources": {
+    "reddit": [
+      "stocks",
+      "investing",
+      "options",
+      "ValueInvesting"
+    ],
+    "news": [
+      "Reuters Business",
+      "MarketWatch",
+      "Yahoo Finance"
+    ]
+  }
+}
