@@ -3,260 +3,408 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Market Mood Ring</title>
+    <title>Market Mood Ring</title>
     <style>
-        body {
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+        
+        * {
             margin: 0;
             padding: 0;
-            background: white;
-            font-family: 'Arial', sans-serif;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #FFF3DD;
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
-            min-height: 100vh;
-        }
-        
-        h1 {
-            color: #333;
-            font-size: 32px;
-            margin: 30px 0 10px 0;
-        }
-        
-        .blob-container {
-            width: 400px;
-            height: 400px;
+            justify-content: center;
+            padding: 20px;
             position: relative;
         }
         
-        .sentiment-info {
-            text-align: center;
+        h1 {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            font-weight: 400;
             color: #333;
-            margin-top: -20px;
+            letter-spacing: -0.13em;
+            margin-bottom: 60px;
+            text-align: center;
         }
         
-        .current-mood {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
+        .blob-container {
+            position: relative;
+            margin-bottom: 40px;
         }
         
-        .mood-stats {
-            font-size: 16px;
-            line-height: 1.5;
+        .blob-placeholder {
+            border-radius: 50%;
+            transition: all 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .update-btn {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
+        .market-status {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .market-label {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            font-weight: 400;
+            color: #333;
+            letter-spacing: -0.13em;
+            margin-bottom: 8px;
+        }
+        
+        .sentiment-word {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            font-weight: 700;
+            color: #333;
+            letter-spacing: -0.13em;
+        }
+        
+        .info-link {
+            color: #5C29A5;
+            text-decoration: underline;
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            font-weight: 400;
+            letter-spacing: -0.13em;
             cursor: pointer;
-            font-size: 16px;
-            margin-bottom: 30px;
+            transition: opacity 0.3s ease;
         }
         
-        .update-btn:hover {
-            background: #0056b3;
+        .info-link:hover {
+            opacity: 0.7;
+        }
+        
+        .gradient-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to right, #BE4739, #5C29A5, #84C534);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 12px 20px 0;
+        }
+        
+        .gradient-label {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            font-weight: 400;
+            color: white;
+            letter-spacing: -0.13em;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        /* Desktop styles */
+        @media (min-width: 1024px) {
+            h1 {
+                font-size: 48px;
+                margin-bottom: 80px;
+            }
+            
+            .blob-placeholder {
+                width: 400px;
+                height: 400px;
+            }
+            
+            .market-label {
+                font-size: 18px;
+            }
+            
+            .sentiment-word {
+                font-size: 18px;
+            }
+            
+            .info-link {
+                font-size: 14px;
+            }
+            
+            .gradient-label {
+                font-size: 16px;
+            }
+            
+            .gradient-bar {
+                height: 100px;
+                padding: 16px 40px 0;
+            }
+        }
+        
+        /* Tablet styles */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            h1 {
+                font-size: 40px;
+                margin-bottom: 60px;
+            }
+            
+            .blob-placeholder {
+                width: 350px;
+                height: 350px;
+            }
+            
+            .market-label {
+                font-size: 16px;
+            }
+            
+            .sentiment-word {
+                font-size: 16px;
+            }
+            
+            .info-link {
+                font-size: 13px;
+            }
+            
+            .gradient-label {
+                font-size: 14px;
+            }
+            
+            .gradient-bar {
+                height: 90px;
+                padding: 14px 30px 0;
+            }
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 767px) {
+            h1 {
+                font-size: 32px;
+                margin-bottom: 40px;
+            }
+            
+            .blob-placeholder {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .market-label {
+                font-size: 14px;
+            }
+            
+            .sentiment-word {
+                font-size: 14px;
+            }
+            
+            .info-link {
+                font-size: 12px;
+            }
+            
+            .gradient-label {
+                font-size: 12px;
+            }
+            
+            .gradient-bar {
+                height: 70px;
+                padding: 10px 15px 0;
+            }
+        }
+        
+        /* Color schemes for different sentiments */
+        .bullish {
+            background: radial-gradient(circle, #C3E494, #92C34E, #3B5911);
+        }
+        
+        .bearish {
+            background: radial-gradient(circle, #F75C4A, #C34014, #9D1412);
+        }
+        
+        .neutral {
+            background: radial-gradient(circle, #763CC7, #5B1EAF, #260E47);
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: #FFF3DD;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+        
+        .modal h2 {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            font-weight: 700;
+            color: #333;
+            letter-spacing: -0.13em;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .modal p {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            font-weight: 400;
+            color: #333;
+            letter-spacing: -0.13em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+        }
+        
+        /* Demo controls for testing */
+        .demo-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            opacity: 0.7;
+        }
+        
+        .demo-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #333;
+            padding: 8px 12px;
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            background: rgba(255, 255, 255, 1);
         }
     </style>
 </head>
 <body>
-    <h1>Financial Market Mood Ring</h1>
+    <div class="demo-controls">
+        <button class="demo-btn" onclick="setSentiment('bullish')">Bullish</button>
+        <button class="demo-btn" onclick="setSentiment('neutral')">Neutral</button>
+        <button class="demo-btn" onclick="setSentiment('bearish')">Bearish</button>
+    </div>
     
-    <div class="blob-container" id="blobContainer"></div>
-    
-    <div class="sentiment-info">
-        <div class="current-mood" id="currentMood">Market Mood: MIXED</div>
-        <div class="mood-stats" id="moodStats">
-            🐂 Bullish: 0% | 🐻 Bearish: 10% | 😐 Neutral: 90%
+    <div class="container">
+        <h1>Market Mood Ring</h1>
+        
+        <div class="blob-container">
+            <div class="blob-placeholder neutral" id="blob"></div>
+        </div>
+        
+        <div class="market-status">
+            <div class="market-label">The market is looking</div>
+            <div class="sentiment-word" id="sentimentWord">Neutral</div>
+            <div class="info-link" onclick="openModal()">how we get market sentiment</div>
         </div>
     </div>
     
-    <button class="update-btn" onclick="updateMood()">Update Market Mood</button>
+    <div class="gradient-bar">
+        <span class="gradient-label">Bearish</span>
+        <span class="gradient-label">Neutral</span>
+        <span class="gradient-label">Bullish</span>
+    </div>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Modal -->
+    <div class="modal" id="modal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h2>How We Get Market Sentiment</h2>
+            <p>We analyze real-time discussions from financial communities across multiple platforms to gauge market sentiment.</p>
+            <p><strong>Data Sources:</strong></p>
+            <p>• Reddit financial subreddits (r/stocks, r/investing, r/SecurityAnalysis)</p>
+            <p>• StockTwits social sentiment</p>
+            <p>• Financial news headlines and analysis</p>
+            <p>• Twitter financial hashtags and discussions</p>
+            <p>Our sentiment analysis processes thousands of posts and comments to create a real-time mood indicator for the overall market.</p>
+        </div>
+    </div>
     
     <script>
-        let currentSentiment = {
-            bullish: 0,
-            bearish: 10,
-            neutral: 90,
-            overall: 'MIXED'
+        let currentSentiment = 'neutral';
+        
+        const sentiments = {
+            bullish: {
+                word: 'Bullish',
+                class: 'bullish'
+            },
+            bearish: {
+                word: 'Bearish', 
+                class: 'bearish'
+            },
+            neutral: {
+                word: 'Neutral',
+                class: 'neutral'
+            }
         };
         
-        // Three.js setup
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, 400 / 400, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(400, 400);
-        renderer.setClearColor(0xffffff, 0); // Transparent background
-        document.getElementById('blobContainer').appendChild(renderer.domElement);
-
-        // Create blob geometry
-        const geometry = new THREE.SphereGeometry(1.5, 64, 64);
-        
-        // Shader for the blob
-        const vertexShader = `
-            varying vec3 vPosition;
-            varying vec3 vNormal;
-            uniform float time;
+        function setSentiment(sentiment) {
+            currentSentiment = sentiment;
+            const blob = document.getElementById('blob');
+            const sentimentWord = document.getElementById('sentimentWord');
             
-            void main() {
-                vPosition = position;
-                vNormal = normal;
-                
-                // Add gentle noise for blob deformation
-                vec3 pos = position;
-                float noise = sin(pos.x * 2.0 + time) * 0.1 + 
-                             cos(pos.y * 3.0 + time * 0.8) * 0.08 + 
-                             sin(pos.z * 2.5 + time * 1.2) * 0.06;
-                pos += normal * noise;
-                
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-            }
-        `;
-        
-        const fragmentShader = `
-            varying vec3 vPosition;
-            varying vec3 vNormal;
-            uniform float time;
-            uniform vec3 bullishColor;
-            uniform vec3 bearishColor;
-            uniform vec3 neutralColor;
-            uniform float bullishAmount;
-            uniform float bearishAmount;
-            uniform float neutralAmount;
+            // Remove all sentiment classes
+            blob.classList.remove('bullish', 'bearish', 'neutral');
             
-            // Random function for grain
-            float random(vec2 st) {
-                return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
-            }
+            // Add new sentiment class
+            blob.classList.add(sentiments[sentiment].class);
             
-            // Noise function
-            float noise(vec2 st) {
-                vec2 i = floor(st);
-                vec2 f = fract(st);
-                
-                float a = random(i);
-                float b = random(i + vec2(1.0, 0.0));
-                float c = random(i + vec2(0.0, 1.0));
-                float d = random(i + vec2(1.0, 1.0));
-                
-                vec2 u = f * f * (3.0 - 2.0 * f);
-                
-                return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
-            }
-            
-            void main() {
-                // Create distance from center for gradient
-                float dist = length(vPosition) / 1.5;
-                
-                // Add some movement to the gradient
-                float movement = sin(time * 0.5 + vPosition.x * 0.5) * 0.3 + 
-                                cos(time * 0.3 + vPosition.y * 0.7) * 0.2;
-                dist += movement;
-                
-                // Add grain/noise
-                vec2 grainCoord = vPosition.xy * 600.0 + time * 0.1;
-                float grain = noise(grainCoord) * 0.05;
-                
-                // Mix colors based on sentiment
-                vec3 baseColor = bullishColor * (bullishAmount / 100.0) + 
-                                bearishColor * (bearishAmount / 100.0) + 
-                                neutralColor * (neutralAmount / 100.0);
-                
-                // Create gradient variation
-                vec3 color = baseColor;
-                if (dist < 0.5) {
-                    color = mix(baseColor, baseColor * 1.3, dist * 2.0);
-                } else {
-                    color = mix(baseColor * 1.3, baseColor * 0.7, (dist - 0.5) * 2.0);
-                }
-                
-                // Apply grain
-                color += grain;
-                
-                // Add glow
-                float fresnel = 1.0 - abs(dot(vNormal, vec3(0.0, 0.0, 1.0)));
-                color += baseColor * fresnel * 0.2;
-                
-                gl_FragColor = vec4(color, 1.0);
-            }
-        `;
-        
-        const material = new THREE.ShaderMaterial({
-            vertexShader,
-            fragmentShader,
-            uniforms: {
-                time: { value: 0 },
-                bullishColor: { value: new THREE.Vector3(0.18, 0.8, 0.44) }, // Green
-                bearishColor: { value: new THREE.Vector3(0.91, 0.3, 0.24) }, // Red  
-                neutralColor: { value: new THREE.Vector3(0.58, 0.65, 0.65) }, // Gray
-                bullishAmount: { value: 0 },
-                bearishAmount: { value: 10 },
-                neutralAmount: { value: 90 }
-            }
-        });
-        
-        const blob = new THREE.Mesh(geometry, material);
-        scene.add(blob);
-        
-        camera.position.z = 3;
-        
-        let time = 0;
-        
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            time += 0.01;
-            material.uniforms.time.value = time;
-            
-            // Gentle animation
-            blob.rotation.y = Math.sin(time * 0.3) * 0.2;
-            blob.rotation.x = Math.cos(time * 0.2) * 0.1;
-            blob.position.y = Math.sin(time * 0.4) * 0.1;
-            blob.position.x = Math.cos(time * 0.6) * 0.05;
-            
-            renderer.render(scene, camera);
+            // Update text
+            sentimentWord.textContent = sentiments[sentiment].word;
         }
         
-        function updateMoodColors() {
-            const { bullish, bearish, neutral } = currentSentiment;
-            
-            // Update shader uniforms
-            material.uniforms.bullishAmount.value = bullish;
-            material.uniforms.bearishAmount.value = bearish;
-            material.uniforms.neutralAmount.value = neutral;
-            
-            // Update text display
-            document.getElementById('currentMood').textContent = `Market Mood: ${currentSentiment.overall}`;
-            document.getElementById('moodStats').textContent = 
-                `🐂 Bullish: ${bullish}% | 🐻 Bearish: ${bearish}% | 😐 Neutral: ${neutral}%`;
+        function openModal() {
+            document.getElementById('modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
         
-        function updateMood() {
-            // Demo different moods
-            const moods = [
-                { bullish: 70, bearish: 20, neutral: 10, overall: 'BULLISH' },
-                { bullish: 15, bearish: 75, neutral: 10, overall: 'BEARISH' },
-                { bullish: 30, bearish: 30, neutral: 40, overall: 'MIXED' },
-                { bullish: 5, bearish: 10, neutral: 85, overall: 'NEUTRAL' }
-            ];
-            
-            currentSentiment = moods[Math.floor(Math.random() * moods.length)];
-            updateMoodColors();
+        function closeModal(event) {
+            if (!event || event.target === document.getElementById('modal')) {
+                document.getElementById('modal').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
         }
+        
+        // Simulate live updates every 10 seconds for demo
+        function simulateLiveUpdate() {
+            const sentimentTypes = ['bullish', 'bearish', 'neutral'];
+            const randomSentiment = sentimentTypes[Math.floor(Math.random() * sentimentTypes.length)];
+            setSentiment(randomSentiment);
+        }
+        
+        // Auto-update every 10 seconds (remove this for production)
+        setInterval(simulateLiveUpdate, 10000);
         
         // Initialize
-        updateMoodColors();
-        animate();
-        
-        // Handle window resize if needed
-        window.addEventListener('resize', () => {
-            // Keep blob container size fixed for now
-        });
+        setSentiment('neutral');
     </script>
 </body>
-</html>git push
+</html>
