@@ -1,105 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
     <title>Market Mood Ring</title>
     <style>
-        * {
+        html, body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
             background: #FFFFFF;
-            font-family: 'Courier New', monospace;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow-x: hidden;
+            overflow: hidden;
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-weight: bold;
         }
         
-        .container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
         
-        h1 {
-            font-family: 'Courier New', monospace;
-            font-weight: 400;
-            color: #333;
-            letter-spacing: -0.13em;
-            margin-bottom: 60px;
+        .ui-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.title {
+    font-size: 48px;
+    color: #000;
+    text-align: center;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.sentiment-info {
+    text-align: center;
+    color: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+        
+        /* Removed duplicate .title definition to avoid confusion. */
+        
+        .sentiment-info {
             text-align: center;
+            color: #000;
         }
         
-        .blob-container {
-            position: relative;
-            margin-bottom: 40px;
-            width: 400px;
-            height: 400px;
-        }
-        
-        .blob-shape {
-            width: 100%;
-            height: 100%;
-            transition: all 1s ease;
-            background: radial-gradient(circle, #763CC7, #5B1EAF, #260E47);
-            animation: float 8s infinite ease-in-out;
-            filter: blur(1px);
-        }
-        
-        @keyframes float {
-            0%, 100% { 
-                transform: translate(0, 0) scale(1);
-                border-radius: 50%;
-            }
-            25% { 
-                transform: translate(-10px, -15px) scale(1.1);
-                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-            }
-            50% { 
-                transform: translate(15px, -10px) scale(0.9);
-                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-            }
-            75% { 
-                transform: translate(-5px, 10px) scale(1.05);
-                border-radius: 40% 60% 60% 40% / 70% 30% 60% 40%;
-            }
-        }
-        
-        .market-status {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .market-text {
-            font-family: 'Courier New', monospace;
-            font-weight: 400;
-            color: #333;
-            letter-spacing: -0.13em;
+        .market-label {
+            font-size: 16px;
             margin-bottom: 8px;
+            font-weight: normal;
         }
         
         .sentiment-word {
-            font-weight: 700;
+            font-size: 36px;
+            font-weight: bold;
+            letter-spacing: -0.01em;
         }
         
         .info-link {
-            color: #5C29A5;
+            font-size: 14px;
+            color: #000;
             text-decoration: underline;
-            font-family: 'Courier New', monospace;
-            font-weight: 400;
-            letter-spacing: -0.13em;
+            margin-top: 12px;
             cursor: pointer;
-            transition: opacity 0.3s ease;
+            pointer-events: auto;
+            font-weight: normal;
         }
         
         .info-link:hover {
@@ -107,146 +88,7 @@
         }
         
         .gradient-section {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #FFF3DD;
-            padding: 12px 20px 0;
-        }
-        
-        .gradient-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            padding: 0 20px;
-        }
-        
-        .gradient-label {
-            font-family: 'Courier New', monospace;
-            font-weight: 400;
-            color: black;
-            letter-spacing: -0.13em;
-        }
-        
-        .gradient-bar {
-            height: 50px;
-            background: linear-gradient(to right, #BE4739, #5C29A5, #84C534);
-            margin: 0 -20px;
-        }
-        
-        /* Desktop styles */
-        @media (min-width: 1024px) {
-            h1 {
-                font-size: 48px;
-                margin-bottom: 80px;
-            }
-            
-            .blob-container {
-                width: 400px;
-                height: 400px;
-            }
-            
-            .market-text {
-                font-size: 18px;
-            }
-            
-            .info-link {
-                font-size: 14px;
-            }
-            
-            .gradient-label {
-                font-size: 16px;
-            }
-            
-            .gradient-section {
-                padding: 16px 40px 0;
-            }
-            
-            .gradient-labels {
-                padding: 0 40px;
-            }
-            
-            .gradient-bar {
-                height: 60px;
-                margin: 0 -40px;
-            }
-        }
-        
-        /* Tablet styles */
-        @media (min-width: 768px) and (max-width: 1023px) {
-            h1 {
-                font-size: 40px;
-                margin-bottom: 60px;
-            }
-            
-            .blob-container {
-                width: 350px;
-                height: 350px;
-            }
-            
-            .market-text {
-                font-size: 16px;
-            }
-            
-            .info-link {
-                font-size: 13px;
-            }
-            
-            .gradient-label {
-                font-size: 14px;
-            }
-            
-            .gradient-section {
-                padding: 14px 30px 0;
-            }
-            
-            .gradient-labels {
-                padding: 0 30px;
-            }
-            
-            .gradient-bar {
-                height: 45px;
-                margin: 0 -30px;
-            }
-        }
-        
-        /* Mobile styles */
-        @media (max-width: 767px) {
-            h1 {
-                font-size: 32px;
-                margin-bottom: 40px;
-            }
-            
-            .blob-container {
-                width: 280px;
-                height: 280px;
-            }
-            
-            .market-text {
-                font-size: 14px;
-            }
-            
-            .info-link {
-                font-size: 12px;
-            }
-            
-            .gradient-label {
-                font-size: 12px;
-            }
-            
-            .gradient-section {
-                padding: 10px 15px 0;
-            }
-            
-            .gradient-labels {
-                padding: 0 15px;
-            }
-            
-            .gradient-bar {
-                height: 35px;
-                margin: 0 -15px;
-            }
+            display: none;
         }
         
         /* Modal styles */
@@ -265,7 +107,7 @@
         }
         
         .modal-content {
-            background: #FFF3DD;
+            background: #FFFFFF;
             padding: 30px;
             border-radius: 8px;
             max-width: 500px;
@@ -275,19 +117,17 @@
         }
         
         .modal h2 {
-            font-family: 'Courier New', monospace;
-            font-weight: 700;
-            color: #333;
-            letter-spacing: -0.13em;
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-weight: bold;
+            color: #000;
             margin-bottom: 20px;
             font-size: 24px;
         }
         
         .modal p {
-            font-family: 'Courier New', monospace;
-            font-weight: 400;
-            color: #333;
-            letter-spacing: -0.13em;
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-weight: normal;
+            color: #000;
             line-height: 1.6;
             margin-bottom: 15px;
             font-size: 14px;
@@ -301,29 +141,46 @@
             border: none;
             font-size: 24px;
             cursor: pointer;
-            color: #333;
+            color: #000;
+        }
+        
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .sentiment-info {
+                transform: translateY(-200px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 32px;
+            }
+            
+            .sentiment-word {
+                font-size: 28px;
+            }
+            
+            .ui-overlay {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Market Mood Ring</h1>
+    <div class="ui-overlay">
+        <div class="title">MARKET<br>MOOD<br>RING</div>
         
-        <div class="blob-container">
-            <div class="blob-shape" id="blob"></div>
-        </div>
-        
-        <div class="market-status">
-            <div class="market-text">The market is looking <span class="sentiment-word" id="sentimentWord">Neutral</span></div>
+        <div class="sentiment-info">
+            <div class="market-label">THE MARKET IS LOOKING</div>
+            <div class="sentiment-word" id="sentimentWord">BEARISH</div>
             <div class="info-link" onclick="openModal()">how we get market sentiment</div>
         </div>
     </div>
     
     <div class="gradient-section">
         <div class="gradient-labels">
-            <span class="gradient-label">Bearish</span>
-            <span class="gradient-label">Neutral</span>
-            <span class="gradient-label">Bullish</span>
+            <span>Bearish</span>
+            <span>Neutral</span>
+            <span>Bullish</span>
         </div>
         <div class="gradient-bar"></div>
     </div>
@@ -335,81 +192,134 @@
             <h2>How We Get Market Sentiment</h2>
             <p>We analyze real-time discussions from financial communities across multiple platforms to gauge market sentiment.</p>
             <p><strong>Data Sources:</strong></p>
-            <p>• Reddit financial subreddits (r/stocks, r/investing, r/SecurityAnalysis)</p>
-            <p>• StockTwits social sentiment</p>
-            <p>• Financial news headlines and analysis</p>
-            <p>• Twitter financial hashtags and discussions</p>
-            <p>Our sentiment analysis processes thousands of posts and comments to create a real-time mood indicator for the overall market.</p>
+            <p>• Reddit financial subreddits (r/stocks, r/investing, r/ValueInvesting, r/options)</p>
+            <p>• Reuters Business News headlines</p>
+            <p>• MarketWatch financial news</p>
+            <p>• Yahoo Finance news feed</p>
+            <p>Our sentiment analysis processes thousands of posts and headlines to create a real-time mood indicator for the overall market.</p>
         </div>
     </div>
-    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
     <script>
-console.log("Script starting...");
-
-var currentSentiment = 'neutral';
-
-// Test if we can run basic JavaScript
-console.log("Basic JavaScript working");
-
-var colorSchemes = {
-    bullish: 'radial-gradient(circle, #C3E494, #92C34E, #3B5911)',
-    bearish: 'radial-gradient(circle, #F75C4A, #C34014, #9D1412)',
-    neutral: 'radial-gradient(circle, #763CC7, #5B1EAF, #260E47)'
-};
-
-var sentiments = {
-    bullish: { word: 'Bullish' },
-    bearish: { word: 'Bearish' },
-    neutral: { word: 'Neutral' }
-};
-
-function setSentiment(sentiment) {
-    console.log("Setting sentiment to:", sentiment);
-    currentSentiment = sentiment;
-    var blob = document.getElementById('blob');
-    var sentimentWord = document.getElementById('sentimentWord');
-    
-    blob.style.background = colorSchemes[sentiment];
-    sentimentWord.textContent = sentiments[sentiment].word;
-}
-
-function loadSentimentData() {
-    console.log("Attempting to load sentiment data...");
-    fetch('sentiment_data.json')
-        .then(response => {
-            console.log("Fetch response:", response);
-            if (!response.ok) {
-                throw new Error('Could not load sentiment data: ' + response.status);
+        let blobs = [];
+        let currentSentiment = 'bearish';
+        
+        // Color schemes for different sentiments
+        const colorSchemes = {
+            bullish: { r: 133, g: 224, b: 3 },     // #85E003
+            bearish: { r: 180, g: 38, b: 22 },     // #B42616
+            neutral: { r: 79, g: 0, b: 188 }       // #4F00BC
+        };
+        
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            noStroke();
+            for (let i = 0; i < 5; i++) {
+                blobs.push(new Blob(random(width), random(height)));
             }
-            return response.json();
-        })
-        .then(data => {
-            console.log('SUCCESS! Loaded sentiment data:', data);
-            setSentiment(data.sentiment);
-        })
-        .catch(error => {
-            console.log('ERROR loading sentiment data:', error);
-            console.log('Falling back to demo mode');
-            setSentiment('neutral');
-        });
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("Page loaded, starting mood ring...");
-    loadSentimentData();
-});
-</script>
-    <script>
+        }
+        
+        function draw() {
+            background(255, 255, 255, 50);
+            loadPixels();
+            
+            // Get current color scheme
+            const colors = colorSchemes[currentSentiment];
+            
+            for (let x = 0; x < width; x += 2) {
+                for (let y = 0; y < height; y += 2) {
+                    let sum = 0;
+                    for (let blob of blobs) {
+                        let d = dist(x, y, blob.pos.x, blob.pos.y);
+                        sum += 200 * blob.r / d;
+                    }
+                    if (sum > 200) {
+                        let index = (x + y * width) * 4;
+                        pixels[index] = colors.r;     // Red channel
+                        pixels[index + 1] = colors.g; // Green channel
+                        pixels[index + 2] = colors.b; // Blue channel
+                        pixels[index + 3] = 200;      // Alpha channel
+                    }
+                }
+            }
+            updatePixels();
+            
+            for (let blob of blobs) {
+                blob.update();
+            }
+        }
+        
+        class Blob {
+            constructor(x, y) {
+                this.pos = createVector(x, y);
+                this.vel = p5.Vector.random2D().mult(random(1, 2));
+                this.r = random(50, 120);
+            }
+            
+            update() {
+                this.pos.add(this.vel);
+                if (this.pos.x < 0 || this.pos.x > width) this.vel.x *= -1;
+                if (this.pos.y < 0 || this.pos.y > height) this.vel.y *= -1;
+            }
+        }
+        
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+        
+        // Sentiment control functions
+        function setSentiment(sentiment) {
+            currentSentiment = sentiment;
+            const sentimentWord = document.getElementById('sentimentWord');
+            sentimentWord.textContent = sentiment.toUpperCase();
+        }
+        
+        function loadSentimentData() {
+            fetch('sentiment_data.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Could not load sentiment data');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Loaded sentiment data:', data);
+                    setSentiment(data.sentiment);
+                })
+                .catch(error => {
+                    console.log('Using demo mode - could not load sentiment_data.json:', error);
+                    // Simulate random sentiment for demo
+                    simulateRandomSentiment();
+                });
+        }
+        
+        function simulateRandomSentiment() {
+            const sentiments = ['bullish', 'bearish', 'neutral'];
+            const randomSentiment = sentiments[Math.floor(Math.random() * sentiments.length)];
+            setSentiment(randomSentiment);
+        }
+        
         function openModal() {
             document.getElementById('modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
-
+        
         function closeModal(event) {
-            if (event) {
-                event.stopPropagation();
+            if (!event || event.target === document.getElementById('modal')) {
+                document.getElementById('modal').style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
-            document.getElementById('modal').style.display = 'none';
         }
+        
+        // Load sentiment data on page load and refresh every 30 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSentimentData();
+            setInterval(loadSentimentData, 30000);
+        });
+        
+        // Change sentiment every 10 seconds for demo (remove when using real data)
+        setInterval(simulateRandomSentiment, 10000);
     </script>
 </body>
 </html>
