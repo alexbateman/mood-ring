@@ -22,43 +22,35 @@
         }
         
         .ui-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    pointer-events: none;
-    padding: 40px;
-    box-sizing: border-box;
-}
-
-.title {
-    font-size: 48px;
-    color: #000;
-    text-align: center;
-    line-height: 0.9;
-    letter-spacing: -0.02em;
-    position: absolute;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.sentiment-info {
-    text-align: center;
-    color: #000;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
+            box-sizing: border-box;
+        }
         
-        /* Removed duplicate .title definition to avoid confusion. */
+        .title {
+            font-size: 48px;
+            color: #000;
+            text-align: center;
+            line-height: 0.9;
+            letter-spacing: -0.02em;
+        }
         
         .sentiment-info {
             text-align: center;
             color: #000;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         
         .market-label {
@@ -146,17 +138,26 @@
         
         @media (min-width: 768px) and (max-width: 1024px) {
             .sentiment-info {
-                transform: translateY(-200px);
+                top: 40%;
             }
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
             .title {
-                font-size: 32px;
+                font-size: 28px;
+                top: 30px;
             }
             
             .sentiment-word {
-                font-size: 28px;
+                font-size: 24px;
+            }
+            
+            .market-label {
+                font-size: 14px;
+            }
+            
+            .info-link {
+                font-size: 12px;
             }
             
             .ui-overlay {
