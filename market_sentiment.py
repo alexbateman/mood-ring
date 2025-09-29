@@ -1,5 +1,6 @@
 # My Financial Market Mood Ring - Data Fetcher with News
 import praw
+import os
 import datetime
 import json
 import feedparser
@@ -8,10 +9,10 @@ from textblob import TextBlob
 print("🔮 Financial Market Mood Ring Starting...")
 print(f"Analysis started at: {datetime.datetime.now()}")
 
-# Reddit API connection
+# Reddit API connection - use environment variables in production
 reddit = praw.Reddit(
-    client_id="wqtWJt88WTOZzVHesMGuCQ",
-    client_secret="NfIXpUfZHmJ4UIyak0dzVspEVTfPTg",
+    client_id=os.environ.get('REDDIT_CLIENT_ID', 'wqtWJt88WTOZzVHesMGuCQ'),
+    client_secret=os.environ.get('REDDIT_CLIENT_SECRET', 'NfIXpUfZHmJ4UIyak0dzVspEVTfPTg'),
     user_agent="FinancialMoodRing/1.0 by /u/YourUsername"
 )
 
