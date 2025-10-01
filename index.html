@@ -29,44 +29,45 @@
             height: 100%;
             z-index: 10;
             pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
             padding: 40px;
             box-sizing: border-box;
         }
         
         .title {
-            font-size: 48px;
+            font-size: 52px;
             color: #000;
             text-align: center;
             line-height: 0.9;
             letter-spacing: -0.02em;
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
         }
         
         .sentiment-info {
             text-align: center;
             color: #000;
             position: absolute;
-            top: 50%;
+            top: 340px;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
         }
         
         .market-label {
-            font-size: 16px;
+            font-size: 18px;
             margin-bottom: 8px;
             font-weight: normal;
         }
         
         .sentiment-word {
-            font-size: 36px;
+            font-size: 52px;
             font-weight: bold;
             letter-spacing: -0.01em;
         }
         
         .info-link {
-            font-size: 14px;
+            font-size: 16px;
             color: #000;
             text-decoration: underline;
             margin-top: 12px;
@@ -137,22 +138,30 @@
         }
         
         @media (min-width: 768px) and (max-width: 1024px) {
-            .sentiment-info {
-                top: 40%;
-            }
-            
             .ui-overlay {
                 padding: 30px;
             }
-        }
-        
-        @media (max-width: 767px) {
+            
             .title {
                 top: 30px;
             }
             
+            .sentiment-info {
+                top: 330px;
+            }
+        }
+        
+        @media (max-width: 767px) {
             .ui-overlay {
                 padding: 20px;
+            }
+            
+            .title {
+                top: 20px;
+            }
+            
+            .sentiment-info {
+                top: 320px;
             }
         }
     </style>
@@ -235,7 +244,7 @@
             // Use width and height (P5.js canvas dimensions)
             for (let x = 0; x < width; x += 2) {
                 for (let y = 0; y < height; y += 2) {
-                    let sum = 0;
+                    sum = 0;
                     for (let blob of blobs) {
                         let d = dist(x, y, blob.pos.x, blob.pos.y);
                         sum += 200 * blob.r / d;
@@ -331,7 +340,7 @@
         });
         
         // Change sentiment every 10 seconds for demo (remove when using real data)
-        // setInterval(simulateRandomSentiment, 10000);
+       // setInterval(simulateRandomSentiment, 10000);
     </script>
 </body>
 </html>
