@@ -214,10 +214,23 @@
         };
         
         function setup() {
-            createCanvas(windowWidth, windowHeight);
+            let canvas = createCanvas(windowWidth, windowHeight);
+            canvas.position(0, 0);
+            canvas.style('position', 'fixed');
+            canvas.style('top', '0');
+            canvas.style('left', '0');
+            canvas.style('z-index', '1');
+            canvas.style('display', 'block');
             noStroke();
+            pixelDensity(1); // Prevent high DPI scaling issues
+            
+            console.log('Canvas created:', width, 'x', height);
+            console.log('Window size:', windowWidth, 'x', windowHeight);
+            
             for (let i = 0; i < 5; i++) {
-                blobs.push(new Blob(random(width), random(height)));
+                let blob = new Blob(random(width), random(height));
+                blobs.push(blob);
+                console.log('Blob', i, 'created at:', blob.pos.x, blob.pos.y);
             }
         }
         
@@ -228,6 +241,7 @@
             // Get current color scheme
             const colors = colorSchemes[currentSentiment];
             
+            // Use width and height (P5.js canvas dimensions)
             for (let x = 0; x < width; x += 2) {
                 for (let y = 0; y < height; y += 2) {
                     let sum = 0;
@@ -237,10 +251,10 @@
                     }
                     if (sum > 200) {
                         let index = (x + y * width) * 4;
-                        pixels[index] = colors.r;     // Red channel
-                        pixels[index + 1] = colors.g; // Green channel
-                        pixels[index + 2] = colors.b; // Blue channel
-                        pixels[index + 3] = 200;      // Alpha channel
+                        pixels[index] = colors.r;
+                        pixels[index + 1] = colors.g;
+                        pixels[index + 2] = colors.b;
+                        pixels[index + 3] = 200;
                     }
                 }
             }
@@ -260,6 +274,7 @@
             
             update() {
                 this.pos.add(this.vel);
+                // Use width and height for boundaries
                 if (this.pos.x < 0 || this.pos.x > width) this.vel.x *= -1;
                 if (this.pos.y < 0 || this.pos.y > height) this.vel.y *= -1;
             }
@@ -267,6 +282,11 @@
         
         function windowResized() {
             resizeCanvas(windowWidth, windowHeight);
+            // Redistribute blobs across the new canvas size
+            for (let blob of blobs) {
+                if (blob.pos.x > width) blob.pos.x = random(width);
+                if (blob.pos.y > height) blob.pos.y = random(height);
+            }
         }
         
         // Sentiment control functions
@@ -319,7 +339,8 @@
             setInterval(loadSentimentData, 30000);
         });
         
-
+        // Change sentiment every 10 seconds for demo (remove when using real data)
+       // setInterval(simulateRandomSentiment, 10000);
     </script>
 </body>
 </html>
