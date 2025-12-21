@@ -1,9 +1,9 @@
 {
   "sentiment": "bullish",
   "bullish_percent": 14.2,
-  "bearish_percent": 2.4,
-  "neutral_percent": 83.4,
-  "last_updated": "2025-12-20T09:03:46.413631",
+  "bearish_percent": 5.4,
+  "neutral_percent": 80.4,
+  "last_updated": "2025-12-21T09:03:51.628982",
   "total_posts": 39,
   "source_breakdown": {
     "r/stocks": {
@@ -16,8 +16,8 @@
     },
     "r/investing": {
       "bullish": 0,
-      "bearish": 0,
-      "neutral": 8,
+      "bearish": 1,
+      "neutral": 7,
       "total_posts": 8,
       "weight": 1.2,
       "type": "reddit"
