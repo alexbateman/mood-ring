@@ -1,14 +1,14 @@
 {
   "sentiment": "bullish",
-  "bullish_percent": 17.1,
-  "bearish_percent": 5.1,
-  "neutral_percent": 77.8,
-  "last_updated": "2026-07-17T09:34:01.446865",
+  "bullish_percent": 23.0,
+  "bearish_percent": 5.9,
+  "neutral_percent": 71.1,
+  "last_updated": "2026-07-18T09:30:33.011314",
   "total_posts": 39,
   "source_breakdown": {
     "r/stocks": {
-      "bullish": 2,
-      "bearish": 1,
+      "bullish": 3,
+      "bearish": 0,
       "neutral": 7,
       "total_posts": 10,
       "weight": 1.0,
@@ -16,24 +16,24 @@
     },
     "r/investing": {
       "bullish": 1,
-      "bearish": 0,
-      "neutral": 7,
+      "bearish": 2,
+      "neutral": 5,
       "total_posts": 8,
       "weight": 1.2,
       "type": "reddit"
     },
     "r/options": {
-      "bullish": 2,
+      "bullish": 1,
       "bearish": 0,
-      "neutral": 4,
+      "neutral": 5,
       "total_posts": 6,
       "weight": 0.8,
       "type": "reddit"
     },
     "r/ValueInvesting": {
-      "bullish": 1,
-      "bearish": 1,
-      "neutral": 3,
+      "bullish": 3,
+      "bearish": 0,
+      "neutral": 2,
       "total_posts": 5,
       "weight": 1.1,
       "type": "reddit"
